@@ -1,0 +1,22 @@
+,miRNA,ceRNA,species,database,type,miRNA_log2FC,ceRNA_log2FC,inference
+1775644,hsa-miR-3064-5p,ARHGAP8,Homo sapiens,miRWalk,miRNA-mRNA,-2.123514599,5.218090539,strict
+1776195,hsa-miR-3064-5p,CEACAM6,Homo sapiens,miRWalk,miRNA-mRNA,-2.123514599,2.820942211,strict
+1778174,hsa-miR-3064-5p,MIR29B2CHG,Homo sapiens,ENCORI,miRNA-lncRNA,-2.123514599,27.79823168,strict
+1778937,hsa-miR-3064-5p,PPARGC1A,Homo sapiens,miRWalk,miRNA-mRNA,-2.123514599,3.927338971,strict
+1779384,hsa-miR-3064-5p,RPS3A,Homo sapiens,miRWalk,miRNA-mRNA,-2.123514599,2.249824162,strict
+1780517,hsa-miR-3064-5p,UTS2,Homo sapiens,miRWalk,miRNA-mRNA,-2.123514599,2.148164339,strict
+2652646,hsa-miR-3690,ISY1-RAB43,Homo sapiens,miRWalk,miRNA-mRNA,2.132122994,-25.351312,strict
+2652810,hsa-miR-3690,LINC00174,Homo sapiens,ENCORI,miRNA-lncRNA,2.132122994,-6.929792229,strict
+2791956,hsa-miR-382-5p,AZU1,Homo sapiens,miRWalk,miRNA-mRNA,-2.458567193,2.169847809,strict
+2793207,hsa-miR-382-5p,HMMR,Homo sapiens,RNAInter,miRNA-mRNA,-2.458567193,2.435641514,strict
+2795525,hsa-miR-382-5p,THUMPD3-AS1,Homo sapiens,ENCORI,miRNA-lncRNA,-2.458567193,24.00021616,strict
+4490251,hsa-miR-485-5p,ARHGAP8,Homo sapiens,miRWalk,miRNA-mRNA,-3.818347856,5.218090539,strict
+4493028,hsa-miR-485-5p,MIR29B2CHG,Homo sapiens,ENCORI,miRNA-lncRNA,-3.818347856,27.79823168,strict
+4493264,hsa-miR-485-5p,NEBL,Homo sapiens,miRWalk,miRNA-mRNA,-3.818347856,2.529631532,strict
+4493678,hsa-miR-485-5p,PFDN4,Homo sapiens,miRWalk,miRNA-mRNA,-3.818347856,2.22269515,strict
+4493864,hsa-miR-485-5p,PPARGC1A,Homo sapiens,miRDB_6.0;TargetSCAN_8.0;RNAInter;miRTarBase_9.0,miRNA-mRNA,-3.818347856,3.927338971,strict
+4494347,hsa-miR-485-5p,RPL9,Homo sapiens,miRWalk,miRNA-mRNA,-3.818347856,2.342160185,strict
+4494399,hsa-miR-485-5p,RWDD3,Homo sapiens,miRWalk,miRNA-mRNA,-3.818347856,2.265764748,strict
+4495187,hsa-miR-485-5p,THUMPD3-AS1,Homo sapiens,ENCORI,miRNA-lncRNA,-3.818347856,24.00021616,strict
+4495205,hsa-miR-485-5p,TLCD4-RWDD3,Homo sapiens,miRWalk,miRNA-mRNA,-3.818347856,3.067442485,strict
+4495619,hsa-miR-485-5p,UTS2,Homo sapiens,miRWalk,miRNA-mRNA,-3.818347856,2.148164339,strict

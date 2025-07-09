@@ -1,0 +1,80 @@
+site_name: CERNATAX
+site_url: https://compbioclub.github.io/CERNATAX
+theme:
+  name: "material"
+  features:
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+    - search.share\
+    # - navigation.footer
+  palette: 
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-sunny 
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      # primary: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+
+extra:
+  homepage:
+  social:
+    - icon: fontawesome/solid/house
+      link: https://compbio.club
+    - icon: fontawesome/brands/github
+      link: https://compbioclub.github.io/CERNATAX/
+  encoding: 'utf-8'
+
+copyright: Copyright &copy; 2025 CompBioClub
+
+repo_url: https://github.com/compbioclub/CERNATAX
+repo_name: CERNATAX
+
+plugins:
+  - mknotebooks:
+      encoding: 'utf-8'
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: numpy
+  - search
+  - autorefs
+
+extra_css:
+  - css/custom.css
+
+extra_javascript:
+  - js/tablesort.min.js
+  - js/sort-init.js  
+
+
+markdown_extensions:
+- admonition
+- codehilite
+- pymdownx.superfences
+- attr_list
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Tutorial: 
+    - Basic operations and stats for the reference ceRNA network: tutorial/reference_ceRNA_network.ipynb
+    - Use DEG to get cohort-specific and disease relatated ceRNA axis: tutorial/ceRNA_axis_from_DEG.ipynb
+    - ceRNA expression visualization for a cohort: tutorial/plot_ceRNA_exp_for_cohort.ipynb
+    - Predict disease phenotype using ceRNA axis: tutorial/prediction.ipynb
+    - ceRNA-axis correlation analysis for a cohort: tutorial/ceRNA_correlation_analysis.ipynb
+    - ceRNA GWAS association analysis: tutorial/ceRNA_gwas_analysis.ipynb
+  - Reference: reference.md
