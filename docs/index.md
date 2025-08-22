@@ -8,7 +8,7 @@ Welcome to the official documentation of **ceRNAxis**!
 
 We have manually curated a reference ceRNA network by integrating `TargetSCAN 8.0`, `miRTarBase 9.0`, `miRDB 6.0`, `NPInter 4.0`, `ENCORI/starBase 2.0`, `miRWalk V3`, and `RNAInter in 2020`. 
 
-To run ceRNAxis with full reference ceRNA network, please download the full file [`ceRNA_ref.csv`](https://doi.org/10.5281/zenodo.15357964), and place it into `cernatax/data`.
+To run ceRNAxis with full reference ceRNA network, please download the full file [`ceRNA_ref.csv`](https://doi.org/10.5281/zenodo.15848890), and place it into `cernatax/data`.
 
 ## Getting Started
 
