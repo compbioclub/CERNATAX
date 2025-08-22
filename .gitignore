@@ -1,6 +1,6 @@
 __pycache__
 .ipynb_checkpoints
-demo
 demo.zip
-cernatax/db/ceRNA_database.csv
+demo
+cernaxis/data/ceRNA_ref.csv
 *pyc

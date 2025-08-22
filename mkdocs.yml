@@ -1,5 +1,5 @@
-site_name: CERNATAX
-site_url: https://compbioclub.github.io/CERNATAX
+site_name: ceRNAxis
+site_url: https://compbioclub.github.io/ceRNAxis
 theme:
   name: "material"
   features:
@@ -34,13 +34,13 @@ extra:
     - icon: fontawesome/solid/house
       link: https://compbio.club
     - icon: fontawesome/brands/github
-      link: https://compbioclub.github.io/CERNATAX/
+      link: https://compbioclub.github.io/ceRNAxis/
   encoding: 'utf-8'
 
 copyright: Copyright &copy; 2025 CompBioClub
 
-repo_url: https://github.com/compbioclub/CERNATAX
-repo_name: CERNATAX
+repo_url: https://github.com/compbioclub/ceRNAxis
+repo_name: ceRNAxis
 
 plugins:
   - mknotebooks:
@@ -70,11 +70,11 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Installation: installation.md
-  - Tutorial: 
+  - AS Paper scripts: 
     - Basic operations and stats for the reference ceRNA network: tutorial/reference_ceRNA_network.ipynb
-    - Use DEG to get cohort-specific and disease relatated ceRNA axis: tutorial/ceRNA_axis_from_DEG.ipynb
-    - ceRNA expression visualization for a cohort: tutorial/plot_ceRNA_exp_for_cohort.ipynb
-    - Predict disease phenotype using ceRNA axis: tutorial/prediction.ipynb
-    - ceRNA-axis correlation analysis for a cohort: tutorial/ceRNA_correlation_analysis.ipynb
-    - ceRNA GWAS association analysis: tutorial/ceRNA_gwas_analysis.ipynb
+    - SCZ - Use DEG to get cohort-specific and disease relatated ceRNA axis from SCZ data: tutorial/SCZ_ceRNA_axis_from_DEG.ipynb
+    - GDM - Use DEG to get cohort-specific and disease relatated ceRNA axis from GDM data: tutorial/GDM_ceRNA_axis_from_DEG.ipynb
+    - SCZ - ceRNA expression visualization for a cohort: tutorial/SCZ_plot_ceRNA_exp_for_cohort.ipynb
+    - SCZ - ceRNA-axis correlation analysis for a cohort: tutorial/SCZ_ceRNA_correlation_analysis.ipynb
+    - SCZ - ceRNA GWAS association analysis: tutorial/SCZ_ceRNA_gwas_analysis.ipynb
   - Reference: reference.md
