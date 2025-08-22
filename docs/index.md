@@ -10,7 +10,6 @@ We have manually curated a reference ceRNA network by integrating `TargetSCAN 8.
 
 To run ceRNAxis with full reference ceRNA network, please download the full file [`ceRNA_ref.csv`](https://doi.org/10.5281/zenodo.15357964), and place it into `cernatax/data`.
 
-
 ## Getting Started
 
 Want to start using it immediately? Check out the [Installation Guide](installation.md).
