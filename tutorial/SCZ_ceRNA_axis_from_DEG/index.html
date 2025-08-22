@@ -1,0 +1,1263 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://compbioclub.github.io/ceRNAxis/tutorial/SCZ_ceRNA_axis_from_DEG/">
+      
+      
+        <link rel="prev" href="../reference_ceRNA_network/">
+      
+      
+        <link rel="next" href="../GDM_ceRNA_axis_from_DEG/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>SCZ - Use DEG to get cohort-specific and disease relatated ceRNA axis from SCZ data - ceRNAxis</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../css/custom.css">
+    
+      <link rel="stylesheet" href="../../css/ansi-colours.css">
+    
+      <link rel="stylesheet" href="../../css/jupyter-cells.css">
+    
+      <link rel="stylesheet" href="../../css/pandas-dataframe.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#use-differential-expressed-de-mirnamrna-to-get-cohort-specific-and-disease-relatated-cerna-axis-from-scz-data" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ceRNAxis" class="md-header__button md-logo" aria-label="ceRNAxis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ceRNAxis
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SCZ - Use DEG to get cohort-specific and disease relatated ceRNA axis from SCZ data
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/compbioclub/ceRNAxis" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ceRNAxis
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ceRNAxis" class="md-nav__button md-logo" aria-label="ceRNAxis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ceRNAxis
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/compbioclub/ceRNAxis" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ceRNAxis
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    AS Paper scripts
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            AS Paper scripts
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference_ceRNA_network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basic operations and stats for the reference ceRNA network
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    SCZ - Use DEG to get cohort-specific and disease relatated ceRNA axis from SCZ data
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    SCZ - Use DEG to get cohort-specific and disease relatated ceRNA axis from SCZ data
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#use-differential-expressed-de-mirnamrna-to-get-cohort-specific-and-disease-relatated-cerna-axis-from-scz-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use differential expressed (DE) miRNA/mRNA to get cohort-specific and disease relatated ceRNA axis from SCZ data
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GDM_ceRNA_axis_from_DEG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    GDM - Use DEG to get cohort-specific and disease relatated ceRNA axis from GDM data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SCZ_plot_ceRNA_exp_for_cohort/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SCZ - ceRNA expression visualization for a cohort
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SCZ_ceRNA_correlation_analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SCZ - ceRNA-axis correlation analysis for a cohort
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SCZ_ceRNA_gwas_analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SCZ - ceRNA GWAS association analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#use-differential-expressed-de-mirnamrna-to-get-cohort-specific-and-disease-relatated-cerna-axis-from-scz-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use differential expressed (DE) miRNA/mRNA to get cohort-specific and disease relatated ceRNA axis from SCZ data
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>SCZ - Use DEG to get cohort-specific and disease relatated ceRNA axis from SCZ data</h1>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>
+(function() {
+  function addWidgetsRenderer() {
+    var requireJsScript = document.createElement('script');
+    requireJsScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js';
+
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var jupyterWidgetsScript = document.createElement('script');
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        widgetRendererSrc = 'jupyter-js-widgets@*/dist/embed.js';
+      }
+    } catch(e) {}
+
+    jupyterWidgetsScript.src = widgetRendererSrc;
+
+    document.body.appendChild(requireJsScript);
+    document.body.appendChild(jupyterWidgetsScript);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+</script>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="use-differential-expressed-de-mirnamrna-to-get-cohort-specific-and-disease-relatated-cerna-axis-from-scz-data">Use differential expressed (DE) miRNA/mRNA to get cohort-specific and disease relatated ceRNA axis from SCZ data</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">autoreload</span>
+
+<span class="c1"># Just download the github, and load the cernaxis into python path</span>
+<span class="c1"># do</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../../&#39;</span><span class="p">)</span>
+
+<span class="c1"># or install cernaxis by pip</span>
+<span class="c1">#!pip install git+https://github.com/compbioclub/cernaxis.git@v1_as</span>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">cernaxis.cernaxis</span><span class="w"> </span><span class="kn">import</span> <span class="n">ceRNAxis</span>
+
+<span class="c1"># initialize cernaxis object</span>
+<span class="n">cernaxis</span> <span class="o">=</span> <span class="n">ceRNAxis</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="o">%</span><span class="n">autoreload</span>
+
+<span class="c1"># Use DE miRNA/mRNA to get the ceRNA_axis</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># use DE miRNA list as the strict criteria</span>
+<span class="n">deg_strict_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../demo/SCZ_DEG_RNA.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;deg_strict_df</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">deg_strict_df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="c1"># use DE mRNA list as the loose criteria</span>
+<span class="n">deg_loose_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../demo/SCZ_DEG_mRNA.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;deg_loose_df</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">deg_loose_df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+<code>deg_strict_df
+                   type             gene    log2FC        pvalue          padj
+hsa-miR-16-2-3p  miRNA  hsa-miR-16-2-3p -5.139793  2.640000e-13  4.020000e-10
+hsa-miR-1306-3p  miRNA  hsa-miR-1306-3p -2.209798  3.320000e-11  1.690000e-08
+hsa-miR-1307-3p  miRNA  hsa-miR-1307-3p -2.093602  2.960000e-11  1.690000e-08
+hsa-miR-132-5p   miRNA   hsa-miR-132-5p -2.121375  5.510000e-09  1.680000e-06
+hsa-miR-624-5p   miRNA   hsa-miR-624-5p  3.021188  3.580000e-08  9.100000e-06
+deg_loose_df
+            baseMean  log2FoldChange     lfcSE      stat    pvalue      padj  \
+MPO      306.948587        2.216337  0.564877  3.923577  0.000087  0.002920   
+DEPDC1    13.781165        2.521829  0.955832  2.638359  0.008331  0.072875   
+DEPDC1B   35.058035        1.846581  0.528130  3.496453  0.000471  0.010010   
+UTS2     166.152947        2.148164  0.747088  2.875383  0.004035  0.044262   
+COL17A1   17.798800        2.779151  1.039143  2.674463  0.007485  0.067760   
+
+            gene  type    log2FC  
+MPO          MPO  mRNA  2.216337  
+DEPDC1    DEPDC1  mRNA  2.521829  
+DEPDC1B  DEPDC1B  mRNA  1.846581  
+UTS2        UTS2  mRNA  2.148164  
+COL17A1  COL17A1  mRNA  2.779151  
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Use strict DE miRNA to get the ceRNA_axis</span>
+<span class="n">ceRNA_df</span><span class="p">,</span> <span class="n">axis_df</span> <span class="o">=</span> <span class="n">cernaxis</span><span class="o">.</span><span class="n">find_ceRNA_axis_by_DEG</span><span class="p">(</span><span class="n">deg_strict_df</span><span class="p">)</span>
+<span class="c1"># store the filtered ceRNA network and ceRNA axis</span>
+<span class="n">ceRNA_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;../../demo_out/SCZ_ceRNA_network.csv&#39;</span><span class="p">)</span>
+<span class="n">axis_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;../../demo_out/SCZ_ceRNA_axis.csv&#39;</span><span class="p">)</span>
+<span class="n">ceRNA_df</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+<code>/Users/chenlingxi/Library/CloudStorage/Dropbox/workspace/SCZ/ceRNAxis/docs/tutorial/../../cernaxis/cernaxis.py:54: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  ceRNA_df['inference'] = 'strict'
+</code>
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>miRNA</th>
+<th>ceRNA</th>
+<th>species</th>
+<th>database</th>
+<th>type</th>
+<th>miRNA_log2FC</th>
+<th>ceRNA_log2FC</th>
+<th>inference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>682758</th>
+<td>hsa-miR-1278</td>
+<td>CEBPB</td>
+<td>Homo sapiens</td>
+<td>RNAInter</td>
+<td>miRNA-mRNA</td>
+<td>2.011778</td>
+<td>-7.399231</td>
+<td>strict</td>
+</tr>
+<tr>
+<th>805405</th>
+<td>hsa-miR-1306-3p</td>
+<td>CEACAM6</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-2.209798</td>
+<td>2.820942</td>
+<td>strict</td>
+</tr>
+<tr>
+<th>806911</th>
+<td>hsa-miR-1306-3p</td>
+<td>NEBL</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-2.209798</td>
+<td>2.529632</td>
+<td>strict</td>
+</tr>
+<tr>
+<th>807351</th>
+<td>hsa-miR-1306-3p</td>
+<td>PPARGC1A</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-2.209798</td>
+<td>3.927339</td>
+<td>strict</td>
+</tr>
+<tr>
+<th>812245</th>
+<td>hsa-miR-1307-3p</td>
+<td>ADAM32</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-2.093602</td>
+<td>3.126004</td>
+<td>strict</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>6996766</th>
+<td>hsa-miR-6855-5p</td>
+<td>FSIP2</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-2.456434</td>
+<td>4.072671</td>
+<td>strict</td>
+</tr>
+<tr>
+<th>6998598</th>
+<td>hsa-miR-6855-5p</td>
+<td>RNASE3</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-2.456434</td>
+<td>2.428955</td>
+<td>strict</td>
+</tr>
+<tr>
+<th>6998710</th>
+<td>hsa-miR-6855-5p</td>
+<td>RWDD3</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-2.456434</td>
+<td>2.265765</td>
+<td>strict</td>
+</tr>
+<tr>
+<th>6999339</th>
+<td>hsa-miR-6855-5p</td>
+<td>TLCD4-RWDD3</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-2.456434</td>
+<td>3.067442</td>
+<td>strict</td>
+</tr>
+<tr>
+<th>6999841</th>
+<td>hsa-miR-6855-5p</td>
+<td>ZNF208</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-2.456434</td>
+<td>2.872955</td>
+<td>strict</td>
+</tr>
+</tbody>
+</table>
+<p>93 rows × 8 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Use strict DE miRNA and loose DE mRNA to get the final ceRNA_axis</span>
+<span class="n">loose_axis_df</span> <span class="o">=</span> <span class="n">cernaxis</span><span class="o">.</span><span class="n">expand_ceRNA_axis_by_loose_DEG</span><span class="p">(</span><span class="n">deg_strict_df</span><span class="p">,</span> <span class="n">deg_loose_df</span><span class="p">)</span>
+<span class="c1"># store the final ceRNA axis</span>
+<span class="n">loose_axis_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;../../demo_out/SCZ_ceRNA_loose_axis.csv&#39;</span><span class="p">)</span>
+<span class="c1"># output the final ceRNA axis</span>
+<span class="n">loose_axis_df</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>miRNA</th>
+<th>ceRNA</th>
+<th>species</th>
+<th>database</th>
+<th>type</th>
+<th>miRNA_log2FC</th>
+<th>ceRNA_log2FC</th>
+<th>inference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>1775644</th>
+<td>hsa-miR-3064-5p</td>
+<td>ARHGAP8</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-2.123515</td>
+<td>5.218091</td>
+<td>loose</td>
+</tr>
+<tr>
+<th>1775806</th>
+<td>hsa-miR-3064-5p</td>
+<td>BCL2A1</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-2.123515</td>
+<td>1.586707</td>
+<td>loose</td>
+</tr>
+<tr>
+<th>1775833</th>
+<td>hsa-miR-3064-5p</td>
+<td>BIRC5</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-2.123515</td>
+<td>1.762193</td>
+<td>loose</td>
+</tr>
+<tr>
+<th>1775877</th>
+<td>hsa-miR-3064-5p</td>
+<td>BTNL3</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-2.123515</td>
+<td>4.612546</td>
+<td>loose</td>
+</tr>
+<tr>
+<th>1776086</th>
+<td>hsa-miR-3064-5p</td>
+<td>CCDC80</td>
+<td>Homo sapiens</td>
+<td>TargetSCAN_8.0</td>
+<td>miRNA-mRNA</td>
+<td>-2.123515</td>
+<td>5.326842</td>
+<td>loose</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>4495205</th>
+<td>hsa-miR-485-5p</td>
+<td>TLCD4-RWDD3</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-3.818348</td>
+<td>3.067442</td>
+<td>loose</td>
+</tr>
+<tr>
+<th>4495575</th>
+<td>hsa-miR-485-5p</td>
+<td>UNC5B</td>
+<td>Homo sapiens</td>
+<td>TargetSCAN_8.0</td>
+<td>miRNA-mRNA</td>
+<td>-3.818348</td>
+<td>1.507402</td>
+<td>loose</td>
+</tr>
+<tr>
+<th>4495619</th>
+<td>hsa-miR-485-5p</td>
+<td>UTS2</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-3.818348</td>
+<td>2.148164</td>
+<td>loose</td>
+</tr>
+<tr>
+<th>4495817</th>
+<td>hsa-miR-485-5p</td>
+<td>ZFP30</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-3.818348</td>
+<td>1.746945</td>
+<td>loose</td>
+</tr>
+<tr>
+<th>4495936</th>
+<td>hsa-miR-485-5p</td>
+<td>ZNF441</td>
+<td>Homo sapiens</td>
+<td>miRWalk</td>
+<td>miRNA-mRNA</td>
+<td>-3.818348</td>
+<td>1.650988</td>
+<td>loose</td>
+</tr>
+</tbody>
+</table>
+<p>118 rows × 8 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Compared with DLRAPom detected ceRNA axes</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">plotnine</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../demo_out/SCZ_DLRAPom_miRNA_mRNA.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)[[</span><span class="s1">&#39;mirnaid&#39;</span><span class="p">,</span> <span class="s1">&#39;genesymbol&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">df1</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;miRNA&#39;</span><span class="p">,</span> <span class="s1">&#39;ceRNA&#39;</span><span class="p">]</span>
+<span class="n">df1</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;miRNA-mRNA&#39;</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../demo_out/SCZ_DLRAPom_miRNA_lncRNA.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)[[</span><span class="s1">&#39;miRNAname&#39;</span><span class="p">,</span> <span class="s1">&#39;geneName&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">df2</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;miRNA&#39;</span><span class="p">,</span> <span class="s1">&#39;ceRNA&#39;</span><span class="p">]</span>
+<span class="n">df2</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;miRNA-lncRNA&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Tool&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;DLRAPom&#39;</span>
+<span class="n">df3</span> <span class="o">=</span> <span class="n">axis_df</span><span class="p">[[</span><span class="s1">&#39;miRNA&#39;</span><span class="p">,</span> <span class="s1">&#39;ceRNA&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">df3</span><span class="p">[</span><span class="s1">&#39;Tool&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ceRNAxis&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">df3</span><span class="p">])</span>
+<span class="n">df</span>
+
+<span class="n">summary</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span>
+    <span class="o">.</span><span class="n">drop_duplicates</span><span class="p">([</span><span class="s1">&#39;miRNA&#39;</span><span class="p">,</span><span class="s1">&#39;ceRNA&#39;</span><span class="p">,</span><span class="s1">&#39;type&#39;</span><span class="p">,</span><span class="s1">&#39;Tool&#39;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Tool&#39;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">size</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;# of interactions&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">tools</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;Tool&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">sets</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">tool</span><span class="p">:</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Tool</span><span class="o">==</span><span class="n">tool</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">miRNA</span><span class="si">}</span><span class="s2">|</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">ceRNA</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span>
+<span class="p">}</span>
+
+
+<span class="n">label_I</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">sets</span><span class="p">[</span><span class="s1">&#39;DLRAPom&#39;</span><span class="p">]</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">sets</span><span class="p">[</span><span class="s1">&#39;ceRNAxis&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Interactions detected by both tools:&#39;</span><span class="p">,</span> <span class="n">label_I</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib_venn</span><span class="w"> </span><span class="kn">import</span> <span class="n">venn2</span>
+<span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="n">tools</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">venn2</span><span class="p">([</span><span class="n">sets</span><span class="p">[</span><span class="n">A</span><span class="p">],</span> <span class="n">sets</span><span class="p">[</span><span class="n">B</span><span class="p">]],</span> <span class="n">set_labels</span><span class="o">=</span><span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Detected ceRNA interactions in SCZ data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;../../demo_out/SCZ_venn.pdf&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+<code>Interactions detected by both tools: hsa-miR-485-5p|PPARGC1A
+</code>
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="output_png output_subarea">
+<img alt="No description has been provided for this image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZcAAAEuCAYAAABCo1+wAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjEwLjMsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvZiW1igAAAAlwSFlzAAAPYQAAD2EBqD+naQAAPRZJREFUeJztnQd4VFUWx096T0hCCSR0iHTpKCpNBBERFLuLYi8r4lqw7NrLil0stFXWFRXBAqiAYAUUpTfpJYSSAIH0ZFLffv87TphMJskkmeS9mff/fd9jwps3793X7v+ee86510fTNE0IIYQQN+Lrzp0RQgghgOJCCCHE7VBcCCGEuB2KCyGEELdDcSGEEOJ2KC6EEELcDsWFEEKI26G4EEIIcTsUF0IIIW6H4uIhDBkyRC2kPGa/Lj///LP4+PioTyOCsj399NNiVpKSktQ1+O9//ytmwzDigouPm2BbgoODpUWLFjJy5EiZNm2aZGdn13rfO3bsUA84bnR98ttvv6njZGRkiDeAc7G/JwEBAdKmTRu57777nJ4jvsN2kyZNqrQS/Pzzz50e67333lPfDxgwQBqKTz75RN58803xBHB9zFhBOePrr7+WwYMHS9OmTSU0NFTatWsnV199tSxbtqzCtllZWfLMM8/I2WefLeHh4RISEiLdunWTRx55RI4dO1bu2axuaWgB/83D6xN/MRjPPvustG3bVoqKiiQ1NVXd0Pvvv19ef/11Wbx4sfTo0aNW4oIHDC1cVID1+TDgOBMnTpRGjRqJtzB9+nT1Yubm5soPP/wgb7/9tmzcuFFWr17tdPvZs2fLY489phoHrvLxxx+re7N27VrZt2+fdOjQwaXfLV++XOoiLtu3b1fPlyeIS+PGjdWzZc+gQYMkPz9fAgMDxYigbP7+7qtmXn31VXn44YeVuOAZg7jgefn+++9l3rx5cvHFF5dte+DAARk+fLgkJyfLVVddJXfccYe6Tlu3bpX3339fvvrqK9mzZ4907txZPvroI6fHy8nJUc8HRCkxMVEakt88vD4xnLiMGjVK+vbtW/Z/PEA//vijXHrppXLZZZfJzp071Y0mDceVV16pKjZw5513yrXXXiufffaZEoL+/fuX27Zr166ye/dueemll5TF6QoHDx5UL9KXX36p9g+heeqpp1z6rdEq1dLSUiksLFSWd0Pg6+vbYMeqDe4sW3FxsTz33HNy0UUXOW1UnDhxoty2V1xxhRw/flw1UM8///xy277wwgsydepU9XezZs3kb3/7m9NjYn1BQYFqiNSksURERDMIc+bMwejM2rp165x+/+KLL6rvZ82aVW79zp07tfHjx2vR0dFaUFCQ1qdPH23RokUV9uu4/PTTT2XbLFmyRDv//PO10NBQLTw8XLvkkku07du3VygDjnXVVVdpjRs31oKDg7XExETt8ccfV9899dRTTo9z8ODBst9/9NFHWu/evdVvUd5rrrlGS05OrnCcmTNnau3atVPb9evXT1u5cqU2ePBgtbgCjoPfhYSEaI0aNdIuuOAC7bvvviu3jSvnbDunkydPllv/zjvvqPWffPJJufWtW7fWRo8erd1yyy2q7EePHi37Dtcbv1mwYEGF8j733HPqehQUFGh333231rFjR81VHK+L7TifffaZ9vzzz2vx8fHquRg2bJi2d+/ecr9zvFcovw2LxaI9+eSTWvv27bXAwEAtISFBe/jhh9V6e/C7v//979rcuXO1Ll26aP7+/tpXX32lvnvllVe0c889V4uJiVHXA/fe2flXd89QLsey2s7Zdr72zzOYP39+2bMWGxur3XDDDdqRI0fKbXPTTTdpYWFhav3YsWPV33i2H3zwQa24uLjctp9++qnaH56ViIgIrVu3btqbb75Z7f1B2fAcOT5TuBc4flRUlBYZGalNnDhRy83NrXJfKSkp6rdPP/10tcedN2+e2vaFF17Qasv777+v9oFn0hXS09PVOeF8oqKitBtvvFHbtGmT2gfqIRtbtmxR27Vt21Y9m82aNdNuvvlmLS0trWyb6uqTDz74QBs6dKjWpEkT9Xx27txZe++99zQj4THicvjwYfX9lVdeWbYOlSFuIl7qqVOnqkpv0KBBmo+Pj/bll1+qbfbv36/dd9996rcQArzEWFJTU9X3//vf/9T2F198sfb222+r/bRp00a94PbCgAcCDw1e1Mcee0wJwJQpU7Tu3buXfX/dddep47zxxhtlx8nJyVHfo6LDcSAoeAieeeYZ9SLjWHgobfznP/9R+xg4cKA2bdo07f7771dlgdi4Ii548Wy/R+X21ltvaddff732yCOPlG3j6jlXJi4PPfSQWr906VKn4oJrjkp20qRJLolLp06dtFtvvVX9DSHFdmvXrtXqIi69evVSDQ3c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"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 CompBioClub
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://compbio.club" target="_blank" rel="noopener" title="compbio.club" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M277.8 8.6c-12.3-11.4-31.3-11.4-43.5 0l-224 208c-9.6 9-12.8 22.9-8 35.1S18.8 272 32 272h16v176c0 35.3 28.7 64 64 64h288c35.3 0 64-28.7 64-64V272h16c13.2 0 25-8.1 29.8-20.3s1.6-26.2-8-35.1zM240 320h32c26.5 0 48 21.5 48 48v96H192v-96c0-26.5 21.5-48 48-48"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://compbioclub.github.io/ceRNAxis/" target="_blank" rel="noopener" title="compbioclub.github.io" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "search.suggest", "search.highlight", "search.share\\"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="../../js/tablesort.min.js"></script>
+      
+        <script src="../../js/sort-init.js"></script>
+      
+    
+  </body>
+</html>
